@@ -6,10 +6,6 @@ on:
       - v*
   workflow_dispatch:
 
-permissions:
-  contents: read
-  packages: write
-
 env:
   IMAGE_NAME: ${{ github.repository }}
 
