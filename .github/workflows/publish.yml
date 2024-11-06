@@ -57,6 +57,9 @@ jobs:
       - name: Run publish script
         run: bash scripts/publish.sh ${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
 
+      - name: debug
+        run: echo "ghcr.io/${{ github.actor }}/wasi-rust-sample:${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}"
+
       - name: Install Cosign & Sign
         uses: sigstore/cosign-installer@v3.7.0
       - name: Check install!
