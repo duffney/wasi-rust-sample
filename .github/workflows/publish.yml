@@ -57,7 +57,10 @@ jobs:
       - name: Run publish script
         run: bash scripts/publish.sh ${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
 
-      - name: Install Cosign
+      - name: Install Cosign & Sign
         uses: sigstore/cosign-installer@v3.7.0
       - name: Check install!
-        run: cosign version
+        run: cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
+        env:
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
