@@ -63,8 +63,10 @@ jobs:
       - name: Install Cosign & Sign
         uses: sigstore/cosign-installer@v3.7.0
       - name: Check install!
-        run: cosign sign --yes --key env://COSIGN_PRIVATE_KEY env://IMAGE
+        run: |
+          image="ghcr.io/${{ github.actor }}/wasi-rust-sample:${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}"
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY $image
         env:
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-          IMAGE: ghcr.io/${{ github.actor }}/wasi-rust-sample:${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
+          # IMAGE: ghcr.io/${{ github.actor }}/wasi-rust-sample:${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
